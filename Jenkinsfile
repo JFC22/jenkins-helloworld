@@ -1,26 +1,11 @@
-pipeline {
-    agent any
-    stages {
-        stage('Pull') {
-            steps {
-                checkout([$class: 'GitSCM',
-                branches: [[name: '*/master']],
-                doGenerateSubmoduleConfigurations: false,
-                extensions: [],
-                submoduleCfg: [],
-                userRemoteConfigs: [[url: '']]])
-                sh "ls"
-            }
-        }
-        stage('Build') {
-            steps {
-                sh "javac Main.java"
-            }
-        }
-        stage('Run') {
-            steps {
-                sh "java Main"
-            }
-        }
-    }
+node {
+    stage('Clone') {
+        git(branch:'main',url: 'https://github.com/JFC22/jenkins-helloworld.git')
+     }
+    stage('Build') {
+        sh "javac Main.java"
+     }
+    stage('Run') {
+        sh "java Main"
+     }    
 }
